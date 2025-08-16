@@ -1,0 +1,440 @@
+/* Cricket Quiz Website CSS */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Start Screen Styles */
+#startScreen {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 50px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+}
+
+#startScreen h2 {
+    color: #1e3c72;
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#startScreen p {
+    font-size: 1.2em;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+#startScreen strong {
+    color: #2a5298;
+}
+
+/* Quiz Screen Styles */
+#quizScreen {
+    display: flex;
+    flex-direction: column;
+}
+
+#quizScreen > div:first-child {
+    text-align: center;
+    margin-bottom: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+#quizScreen h1 {
+    color: #1e3c72;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Score Board */
+#quizScreen > div:first-child > div:first-of-type {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#quizScreen > div:first-child > div:first-of-type > div:first-child {
+    color: #2a5298;
+}
+
+#quizScreen > div:first-child > div:first-of-type > div:last-child {
+    color: #1e3c72;
+}
+
+/* Progress Bar */
+#quizScreen > div:first-child > div:last-of-type {
+    background: #e0e0e0;
+    height: 10px;
+    border-radius: 5px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+#progressBar {
+    background: linear-gradient(135deg, #2a5298, #1e3c72);
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.5s ease;
+    width: 0%;
+}
+
+/* Quiz Content */
+#quizScreen > div:last-child {
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+}
+
+/* Video Container */
+#quizScreen > div:last-child > div:first-child {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+#videoPlaceholder {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    background: linear-gradient(45deg, #1e3c72, #2a5298);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2em;
+    margin: 0 auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+}
+
+/* Question Text */
+#questionText {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #1e3c72;
+    margin-bottom: 25px;
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* Options Container */
+#optionsContainer {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+#optionsContainer div {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 3px solid #dee2e6;
+    border-radius: 15px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.1em;
+    position: relative;
+    overflow: hidden;
+    font-weight: 500;
+}
+
+#optionsContainer div:hover {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    border-color: #2a5298;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(42, 82, 152, 0.2);
+}
+
+/* Selected Option Styles */
+.option-selected {
+    background: linear-gradient(135deg, #2a5298, #1e3c72) !important;
+    color: white !important;
+    border-color: #1e3c72 !important;
+    box-shadow: 0 8px 20px rgba(42, 82, 152, 0.3) !important;
+}
+
+/* Correct Answer Styles */
+.option-correct {
+    background: linear-gradient(135deg, #4caf50, #43a047) !important;
+    color: white !important;
+    border-color: #2e7d32 !important;
+    animation: correctPulse 0.6s ease;
+}
+
+/* Incorrect Answer Styles */
+.option-incorrect {
+    background: linear-gradient(135deg, #f44336, #d32f2f) !important;
+    color: white !important;
+    border-color: #c62828 !important;
+    animation: incorrectShake 0.6s ease;
+}
+
+@keyframes correctPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes incorrectShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Controls */
+#quizScreen > div:last-child > div:last-child {
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* Button Styles */
+button {
+    background: linear-gradient(135deg, #2a5298, #1e3c72);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.2em;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px;
+    box-shadow: 0 8px 20px rgba(42, 82, 152, 0.3);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #1e3c72, #0f2027);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(42, 82, 152, 0.4);
+}
+
+button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(42, 82, 152, 0.3);
+}
+
+button:disabled {
+    background: #ccc !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: none !important;
+    opacity: 0.6;
+}
+
+button:disabled:hover {
+    background: #ccc !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Final Screen Styles */
+#finalScreen {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 50px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+}
+
+#finalScreen h2 {
+    color: #1e3c72;
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#finalScore {
+    font-size: 3em;
+    color: #2a5298;
+    font-weight: bold;
+    margin: 20px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#performance {
+    font-size: 1.4em;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Performance Level Styles */
+.performance-excellent {
+    background: linear-gradient(135deg, #4caf50, #43a047);
+    color: white;
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+}
+
+.performance-good {
+    background: linear-gradient(135deg, #2196f3, #1976d2);
+    color: white;
+    box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+}
+
+.performance-average {
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+    color: white;
+    box-shadow: 0 8px 20px rgba(255, 152, 0, 0.3);
+}
+
+.performance-poor {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+    color: white;
+    box-shadow: 0 8px 20px rgba(244, 67, 54, 0.3);
+}
+
+#finalMessage {
+    font-size: 1.2em;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    #quizScreen > div:last-child,
+    #startScreen,
+    #finalScreen {
+        padding: 20px;
+    }
+    
+    #videoPlaceholder {
+        height: 200px;
+        font-size: 1em;
+    }
+    
+    #quizScreen h1,
+    #startScreen h2,
+    #finalScreen h2 {
+        font-size: 2em;
+    }
+    
+    #finalScore {
+        font-size: 2.5em;
+    }
+    
+    #questionText {
+        font-size: 1.2em;
+    }
+    
+    #optionsContainer div {
+        padding: 15px;
+        font-size: 1em;
+    }
+    
+    button {
+        padding: 12px 30px;
+        font-size: 1em;
+    }
+    
+    #quizScreen > div:first-child > div:first-of-type {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    #quizScreen h1,
+    #startScreen h2,
+    #finalScreen h2 {
+        font-size: 1.8em;
+    }
+    
+    #finalScore {
+        font-size: 2em;
+    }
+    
+    #performance {
+        font-size: 1.2em;
+        padding: 15px;
+    }
+    
+    #videoPlaceholder {
+        height: 150px;
+        font-size: 0.9em;
+    }
+}
+
+/* Additional Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#startScreen,
+#quizScreen > div,
+#finalScreen {
+    animation: fadeIn 0.6s ease;
+}
+
+/* Focus Styles for Accessibility */
+button:focus,
+#optionsContainer div:focus {
+    outline: 3px solid #2a5298;
+    outline-offset: 2px;
+}
+
+/* Loading Animation */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}

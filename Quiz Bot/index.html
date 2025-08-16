@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Quiz Master</title>
+</head>
+<link rel="stylesheet" href="style.css">
+<body>
+    <div class="container">
+        <!-- Start Screen -->
+        <div id="startScreen">
+            <h2>🏏 Cricket Quiz Master</h2>
+            <p>Test your cricket knowledge with 30 exciting video-based questions!</p>
+            <p><strong>Scoring:</strong> +4 points for correct answers, -1 point for wrong answers</p>
+            <button onclick="startQuiz()">Start Quiz</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quizScreen" style="display: none;">
+            <div>
+                <h1>🏏 Cricket Quiz Master</h1>
+                <div>
+                    <div>Score: <span id="score">0</span></div>
+                    <div>Question <span id="currentQuestion">1</span> of 30</div>
+                </div>
+                <div>
+                    <div id="progressBar"></div>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <div id="videoPlaceholder">
+                        🏏 Cricket Video Clip #<span id="videoNumber">1</span>
+                    </div>
+                </div>
+
+                <div id="questionText">
+                    Loading question...
+                </div>
+
+                <div id="optionsContainer">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+
+                <div>
+                    <button id="nextBtn" onclick="nextQuestion()" disabled>Next Question</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Screen -->
+        <div id="finalScreen" style="display: none;">
+            <h2>🏆 Quiz Completed!</h2>
+            <div id="finalScore">0</div>
+            <div id="performance"></div>
+            <p id="finalMessage"></p>
+            <button onclick="restartQuiz()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        // Quiz data with 30 cricket questions
+        const quizData = [
+            {
+                video: "cricket_clip_1",
+                question: "What type of delivery was just bowled?",
+                options: ["Yorker", "Bouncer", "Full Toss", "Googly"],
+                correct: 0
+            },
+            {
+                video: "cricket_clip_2",
+                question: "What was the batsman's mistake in this clip?",
+                options: ["Playing across the line", "Not watching the ball", "Poor footwork", "Wrong shot selection"],
+                correct: 2
+            },
+            {
+                video: "cricket_clip_3",
+                question: "Which fielding position would have prevented this boundary?",
+                options: ["Deep Mid-wicket", "Third Man", "Fine Leg", "Point"],
+                correct: 1
+            },
+            {
+                video: "cricket_clip_4",
+                question: "What type of catch opportunity was this?",
+                options: ["Slip Catch", "Caught Behind", "Deep Field Catch", "Close-in Catch"],
+                correct: 3
+            },
+            {
+                video: "cricket_clip_5",
+                question: "What bowling variation did the bowler just use?",
+                options: ["Slower Ball", "Knuckle Ball", "Cutter", "Off-spin"],
+                correct: 0
+            },
+            {
+                video: "cricket_clip_6",
+                question: "What was the main reason for this wicket?",
+                options: ["Pace", "Swing", "Spin", "Bounce"],
+                correct: 1
+            },
+            {
+                video: "cricket_clip_7",
+                question: "Which shot was the batsman attempting?",
+                options: ["Cover Drive", "Pull Shot", "Square Cut", "Sweep Shot"],
+                correct: 1
+            },
+            {
+                video: "cricket_clip_8",
+                question: "What fielding error occurred in this clip?",
+                options: ["Misfield", "Dropped Catch", "Overthrow", "Wrong Position"],
+                correct: 2
+            },
+            {
+                video: "cricket_clip_9",
+                question: "What type of wicket-keeping skill is shown?",
+                options: ["Stumping", "Catch", "Run-out", "Byes Prevention"],
+                correct: 0
+            },
+            {
+                video: "cricket_clip_10",
+                question: "What bowling line was most effective here?",
+                options: ["Off Stump", "Leg Stump", "Middle Stump", "Outside Off"],
+                correct: 3
+            },
+            {
+                video: "cricket_clip_11",
+                question: "What type of batting technique is demonstrated?",
+                options: ["Forward Defense", "Back Foot Drive", "Leg Glance", "Late Cut"],
+                correct: 2
+            },
+            {
+                video: "cricket_clip_12",
+                question: "Which captaincy decision led to this wicket?",
+                options: ["Field Placement", "Bowling Change", "Review", "Declaration"],
+                correct: 0
+            },
+            {
+                video: "cricket_clip_13",
+                question: "What weather condition affected this play?",
+                options: ["Wind", "Rain", "Dew", "Sunlight"],
+                correct: 2
+            },
+            {
+                video: "cricket_clip_14",
+                question: "What running between wickets mistake occurred?",
+                options: ["No Call", "Wrong Call", "Slow Running", "Not Grounding Bat"],
+                correct: 3
+            },
+            {
+                video: "cricket_clip_15",
+                question: "What power-play strategy is being used?",
+                options: ["Attacking Field", "Defensive Field", "Mixed Strategy", "Bowling Powerplay"],
+                correct: 0
+            },
+            {
+                video: "cricket_clip_16",
+                question: "What type of spin bowling variation is this?",
+                options: ["Doosra", "Carrom Ball", "Arm Ball", "Top Spinner"],
+                correct: 2
+            },
+            {
+                video: "cricket_clip_17",
+                question: "What batting position strategy is evident?",
+                options: ["Pinch Hitter", "Anchor", "Finisher", "Opener"],
+                correct: 1
+            },
+            {
+                video: "cricket_clip_18",
+                question: "What type of ground fielding is shown?",
+                options: ["Sliding Stop", "Dive Stop", "Quick Pick-up", "Boundary Save"],
+                correct: 3
+            },
+            {
+                video: "cricket_clip_19",
+                question: "What bowling plan is the captain implementing?",
+                options: ["Attack Stumps", "Bowl Wide", "Short Pitched", "Vary Pace"],
+                correct: 3
+            },
+            {
+                video: "cricket_clip_20",
+                question: "What batting approach is best for this situation?",
+                options: ["Aggressive", "Defensive", "Rotating Strike", "Big Hitting"],
+                correct: 2
+            },
+            {
+                video: "cricket_clip_21",
+                question: "What type of wicket celebration is this?",
+                options: ["Team Huddle", "Bowler's Salute", "Crowd Appeal", "Stump Celebration"],
+                correct: 1
+            },
+            {
+                video: "cricket_clip_22",
+                question: "What fielding formation is being used?",
+                options: ["Ring Field", "Attacking Field", "Defensive Spread", "Close Catching"],
+                correct: 0
+            },
+            {
+                video: "cricket_clip_23",
+                question: "What batting technique error is visible?",
+                options: ["Head Movement", "Foot Placement", "Bat Swing", "Balance"],
+                correct: 1
+            },
+            {
+                video: "cricket_clip_24",
+                question: "What bowling rhythm change occurred?",
+                options: ["Faster", "Slower", "Same Pace", "Irregular"],
+                correct: 1
+            },
+            {
+                video: "cricket_clip_25",
+                question: "What type of cricket format strategy is this?",
+                options: ["Test Match", "ODI", "T20", "T10"],
+                correct: 2
+            },
+            {
+                video: "cricket_clip_26",
+                question: "What mental aspect of cricket is demonstrated?",
+                options: ["Pressure Handling", "Concentration", "Aggression", "Patience"],
+                correct: 0
+            },
+            {
+                video: "cricket_clip_27",
+                question: "What equipment factor influenced this play?",
+                options: ["Bat Weight", "Pad Position", "Glove Grip", "Helmet Vision"],
+                correct: 1
+            },
+            {
+                video: "cricket_clip_28",
+                question: "What team communication is evident?",
+                options: ["Field Setting", "Bowling Plan", "Batting Order", "Time Management"],
+                correct: 0
+            },
+            {
+                video: "cricket_clip_29",
+                question: "What match situation influenced this decision?",
+                options: ["Required Run Rate", "Wickets in Hand", "Overs Remaining", "All of Above"],
+                correct: 3
+            },
+            {
+                video: "cricket_clip_30",
+                question: "What cricket skill development is shown?",
+                options: ["Technique", "Fitness", "Mental Strength", "Game Awareness"],
+                correct: 3
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOption = null;
+        let quizStarted = false;
+
+        function startQuiz() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('quizScreen').style.display = 'block';
+            quizStarted = true;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= quizData.length) {
+                endQuiz();
+                return;
+            }
+
+            const question = quizData[currentQuestionIndex];
+            selectedOption = null;
+
+            // Update video placeholder
+            document.getElementById('videoNumber').textContent = currentQuestionIndex + 1;
+            
+            // Update question
+            document.getElementById('questionText').textContent = question.question;
+
+            // Update progress
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+
+            // Clear and populate options
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.textContent = option;
+                optionElement.onclick = () => selectOption(index, optionElement);
+                optionElement.style.cursor = 'pointer';
+                optionElement.style.padding = '10px';
+                optionElement.style.margin = '5px';
+                optionElement.style.border = '1px solid #ccc';
+                optionElement.style.borderRadius = '5px';
+                optionsContainer.appendChild(optionElement);
+            });
+
+            // Disable next button
+            document.getElementById('nextBtn').disabled = true;
+        }
+
+        function selectOption(index, element) {
+            if (selectedOption !== null) return;
+
+            selectedOption = index;
+            const question = quizData[currentQuestionIndex];
+            const options = document.querySelectorAll('#optionsContainer div');
+
+            // Mark selected option
+            element.style.backgroundColor = '#007bff';
+            element.style.color = 'white';
+
+            // Show correct answer after a delay
+            setTimeout(() => {
+                options.forEach((opt, i) => {
+                    if (i === question.correct) {
+                        opt.style.backgroundColor = '#28a745';
+                        opt.style.color = 'white';
+                    } else if (i === selectedOption && i !== question.correct) {
+                        opt.style.backgroundColor = '#dc3545';
+                        opt.style.color = 'white';
+                    }
+                });
+
+                // Update score
+                if (selectedOption === question.correct) {
+                    score += 4;
+                } else {
+                    score -= 1;
+                }
+                
+                document.getElementById('score').textContent = score;
+
+                // Enable next button
+                document.getElementById('nextBtn').disabled = false;
+            }, 1000);
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            loadQuestion();
+        }
+
+        function endQuiz() {
+            document.getElementById('quizScreen').style.display = 'none';
+            document.getElementById('finalScreen').style.display = 'block';
+
+            // Display final score
+            document.getElementById('finalScore').textContent = score;
+
+            // Determine performance
+            let performanceText, message;
+            
+            if (score >= 100) {
+                performanceText = '🏆 Excellent! Cricket Expert!';
+                message = 'Outstanding performance! You truly know your cricket inside out.';
+            } else if (score >= 60) {
+                performanceText = '👏 Good! Cricket Enthusiast!';
+                message = 'Great job! You have solid cricket knowledge.';
+            } else if (score >= 20) {
+                performanceText = '👍 Average! Cricket Fan!';
+                message = 'Not bad! Keep watching more cricket to improve.';
+            } else {
+                performanceText = '📚 Keep Learning!';
+                message = 'Don\'t worry! Cricket is a complex game. Keep practicing!';
+            }
+
+            document.getElementById('performance').textContent = performanceText;
+            document.getElementById('finalMessage').textContent = message;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            selectedOption = null;
+            
+            document.getElementById('finalScreen').style.display = 'none';
+            document.getElementById('startScreen').style.display = 'block';
+            document.getElementById('score').textContent = '0';
+        }
+    </script>
+</body>
+</html>
