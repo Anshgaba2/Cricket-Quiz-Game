@@ -16,22 +16,16 @@ Interactive cricket quiz application with 30 video-based questions.
 4. Complete all 30 questions
 5. See your final cricket expertise rating!
 
-## Live Demo
-[Play the Quiz](https://yourusername.github.io/cricket-quiz-master)
-
 ## Tech Stack
 - HTML5
 - CSS3
 - JavaScript
 - Responsive Design
 
-## Installation
-1. Clone the repository
-2. Open `index.html` in your browser
-3. Start playing!
 
 ## Future Updates
-- Add real cricket video clips
-- Mobile app version
+- Add more cricket video clips
 - Leaderboard system
 - More question categories
+- Categories based section 
+- Daily cricket quizzes 
